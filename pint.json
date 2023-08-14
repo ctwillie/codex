@@ -1,0 +1,58 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "align_multiline_comment": {
+            "comment_type": "all_multiline"
+        },
+        "array_indentation": true,
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "blank_line_after_namespace": true,
+        "blank_line_after_opening_tag": false,
+        "braces": {
+            "position_after_functions_and_oop_constructs": "next",
+            "allow_single_line_anonymous_class_with_empty_body": true,
+            "position_after_control_structures": "next",
+            "position_after_anonymous_constructs": "next"
+        },
+        "cast_spaces": {
+            "space": "none"
+        },
+        "concat_space": {
+            "spacing": "one"
+        },
+        "constant_case": {
+            "case": "lower"
+        },
+        "elseif": false,
+        "lowercase_keywords": true,
+        "no_blank_lines_after_phpdoc": false,
+        "no_multiline_whitespace_around_double_arrow": true,
+        "no_spaces_around_offset": {
+            "positions": [
+                "inside",
+                "outside"
+            ]
+        },
+        "no_spaces_inside_parenthesis": true,
+        "no_unused_imports": true,
+        "ordered_imports": {
+            "sort_algorithm": "alpha"
+        },
+        "ordered_traits": true,
+        "single_blank_line_at_eof": true,
+        "single_blank_line_before_namespace": true,
+        "single_trait_insert_per_statement": true,
+        "standardize_not_equals": true,
+        "ternary_operator_spaces": true,
+        "trailing_comma_in_multiline": {
+            "elements": [
+                "arguments",
+                "arrays",
+                "match",
+                "parameters"
+            ]
+        }
+    }
+}
