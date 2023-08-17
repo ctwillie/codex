@@ -8,6 +8,7 @@ import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
 import Select from "@/Components/Select";
 import { SelectOption } from "@/types/select";
+import Toggle from "@/Components/Toggle";
 
 const selectOptions: SelectOption[] = [
     { id: 1, name: "Wade Cooper" },
@@ -29,6 +30,12 @@ type FilterFormProps = {
 export default function FilterForm({
     className,
 }: FilterFormProps): JSX.Element {
+    const defaultFormState = {
+        category: selectOptions[0],
+        text: "",
+        isOfficial: false,
+    };
+
     const {
         data,
         setData,
@@ -37,19 +44,19 @@ export default function FilterForm({
         processing,
         recentlySuccessful,
         transform,
-    } = useForm({
-        category: selectOptions[0],
-        text: "",
-    });
+    } = useForm(defaultFormState);
 
     transform((data): any => {
+        const { category, isOfficial, text } = data;
+
         return {
-            text: data.text,
-            categoryID: data.category.id,
+            text,
+            categoryID: category.id,
+            isOfficial,
         };
     });
 
-    const submit: FormEventHandler = (e) => {
+    const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route("dashboard.search"));
     };
@@ -62,24 +69,26 @@ export default function FilterForm({
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Find the resources you are looking for.
+                    Find the resources you are looking for
                 </p>
             </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
+            <form onSubmit={onSubmit} className="mt-6 space-y-6">
+                <div>
+                    <Toggle
+                        label="Is Official"
+                        onChange={(enabled) => setData("isOfficial", enabled)}
+                    />
+                </div>
                 <div>
                     <Select
                         id="category"
                         label="Category"
                         value={data.category}
                         options={selectOptions}
-                        onChange={(selectedOption: any) => {
-                            console.log(
-                                "custom select onChange",
-                                selectedOption
-                            );
-                            setData("category", selectedOption);
-                        }}
+                        onChange={(selectedOption: any) =>
+                            setData("category", selectedOption)
+                        }
                     />
                 </div>
 
