@@ -25,11 +25,12 @@ export default function Select({
         setSelected(selectedOption);
         onChange(selectedOption);
     };
+
     return (
         <Listbox value={selected} onChange={onSelectChange} {...restProps}>
             {({ open }) => (
                 <>
-                    <Listbox.Label className="block text-sm font-medium leading-6 text-white">
+                    <Listbox.Label className="block font-medium text-sm text-gray-700 dark:text-gray-300">
                         {label}
                     </Listbox.Label>
                     <div className="relative mt-2">
