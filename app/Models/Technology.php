@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -19,6 +20,8 @@ use Illuminate\Support\Carbon;
  */
 class Technology extends Model
 {
+    use HasFactory;
+
     protected $table = 'technologies';
 
     protected $casts = [
