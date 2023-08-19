@@ -27,8 +27,14 @@ Route::middleware('auth')->group(function () {
     /**
      * Dashboard
      */
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
+    Route::prefix('dashboard')
+        ->group(function () {
+            Route::get('resources', [DashboardController::class, 'index'])->name('dashboard');
+            Route::post('search', [DashboardController::class, 'search'])->name('dashboard.search');
+            Route::get('categories', [DashboardController::class, 'categories'])->name('dashboard.categories');
+            Route::get('technologies', [DashboardController::class, 'technologies'])->name('dashboard.technologies');
+            Route::get('tags', [DashboardController::class, 'tags'])->name('dashboard.tags');
+        });
 
     /**
      * Profile

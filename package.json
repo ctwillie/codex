@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.0.18",
-        "clsx": "^2.0.0"
+        "clsx": "^2.0.0",
+        "collect.js": "^4.36.1"
     }
 }

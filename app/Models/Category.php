@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $name
+ * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Collection|resource[] $resources
@@ -24,6 +25,7 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
+        'description',
         'name',
     ];
 
