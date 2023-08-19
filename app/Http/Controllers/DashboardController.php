@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function index(): InertiaResponse
     {
-        return Inertia::render('Dashboard/Search');
+        return Inertia::render('Dashboard/Resources');
     }
 
     public function search(Request $request): JsonResponse
@@ -19,5 +19,20 @@ class DashboardController extends Controller
         return response()->json([
             'postData' => $request->all(),
         ]);
+    }
+
+    public function categories(): InertiaResponse
+    {
+        return Inertia::render('Dashboard/Categories');
+    }
+
+    public function technologies(): InertiaResponse
+    {
+        return Inertia::render('Dashboard/Technologies');
+    }
+
+    public function tags(): InertiaResponse
+    {
+        return Inertia::render('Dashboard/Tags');
     }
 }
