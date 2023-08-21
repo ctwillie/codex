@@ -6,55 +6,60 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { Tag } from "@/types/codex";
 
-export default function CreateCategoryModal() {
-    const [creatingCategory, setCreatingCategory] = useState(false);
+type EditTagProps = {
+    tag: Tag;
+};
+
+export default function EditTagModal({ tag }: EditTagProps) {
+    const [updatingTag, setUpdatingTag] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
+    const { id: tagId, name } = tag;
 
     const {
         data,
         setData,
-        post: store,
+        patch: update,
         processing,
         reset,
         errors,
     } = useForm({
-        name: "",
-        description: "",
+        name,
     });
 
-    const confirmCreateCategory = () => {
-        setCreatingCategory(true);
+    const confirmEditTag = () => {
+        setUpdatingTag(true);
     };
 
-    const createCategory: FormEventHandler = (e) => {
+    const updateTag: FormEventHandler = (e) => {
         e.preventDefault();
 
-        store(route("category.store"), {
+        update(route("tag.update", tagId), {
             onSuccess: () => closeModal(),
             onError: () => nameInput.current?.focus(),
         });
     };
 
     const closeModal = () => {
-        setCreatingCategory(false);
+        setUpdatingTag(false);
         reset();
     };
 
     return (
         <>
-            <button
-                onClick={confirmCreateCategory}
-                className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            <span
+                onClick={confirmEditTag}
+                className="text-indigo-400 hover:text-indigo-300 cursor-pointer"
             >
-                Add
-            </button>
+                Edit
+            </span>
 
-            <Modal show={creatingCategory} onClose={closeModal}>
-                <form onSubmit={createCategory} className="p-6">
+            <Modal show={updatingTag} onClose={closeModal}>
+                <form onSubmit={updateTag} className="p-6">
                     <header>
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Add Category
+                            Edit Tag
                         </h2>
                     </header>
 
@@ -69,22 +74,6 @@ export default function CreateCategoryModal() {
                             onChange={(e) => setData("name", e.target.value)}
                             className="mt-1 block w-3/4"
                             isFocused
-                        />
-
-                        <InputError message={errors.name} className="mt-2" />
-                    </div>
-
-                    <div className="mt-6">
-                        <InputLabel htmlFor="Description" value="Description" />
-
-                        <TextInput
-                            id="description"
-                            name="description"
-                            value={data.description}
-                            onChange={(e) =>
-                                setData("description", e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
                         />
 
                         <InputError message={errors.name} className="mt-2" />

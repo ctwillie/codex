@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 import { JSX } from "react";
-import FilterForm from "@/Pages/Dashboard/Components/SearchForm";
+import ResourceSearchForm from "@/Pages/Dashboard/Components/ResourceSearchForm";
 import Tabs from "@/Components/Tabs";
 
 export default function Resources({ auth }: PageProps): JSX.Element {
@@ -38,8 +38,8 @@ export default function Resources({ auth }: PageProps): JSX.Element {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <Card>
-                        <FilterForm />
+                    <Card className="!py-12">
+                        <ResourceSearchForm />
                     </Card>
                 </div>
             </div>

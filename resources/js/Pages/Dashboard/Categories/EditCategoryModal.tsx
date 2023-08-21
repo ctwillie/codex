@@ -13,14 +13,14 @@ type EditCategoryProps = {
 };
 
 export default function EditCategoryModal({ category }: EditCategoryProps) {
-    const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
+    const [updatingCatgory, setUpdatingCatgory] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
-    const { name, description } = category;
+    const { id: categoryId, name, description } = category;
 
     const {
         data,
         setData,
-        delete: destroy,
+        patch: update,
         processing,
         reset,
         errors,
@@ -29,40 +29,35 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
         description,
     });
 
-    const confirmUserDeletion = () => {
-        setConfirmingUserDeletion(true);
+    const confirmEditCategory = () => {
+        setUpdatingCatgory(true);
     };
 
-    const deleteUser: FormEventHandler = (e) => {
+    const updateCategory: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log(data);
-        closeModal();
 
-        // destroy(route("profile.destroy"), {
-        //     preserveScroll: true,
-        //     onSuccess: () => closeModal(),
-        //     onError: () => passwordInput.current?.focus(),
-        //     onFinish: () => reset(),
-        // });
+        update(route("category.update", categoryId), {
+            onSuccess: () => closeModal(),
+            onError: () => nameInput.current?.focus(),
+        });
     };
 
     const closeModal = () => {
-        setConfirmingUserDeletion(false);
-
+        setUpdatingCatgory(false);
         reset();
     };
 
     return (
         <>
             <span
-                onClick={confirmUserDeletion}
+                onClick={confirmEditCategory}
                 className="text-indigo-400 hover:text-indigo-300 cursor-pointer"
             >
                 Edit
             </span>
 
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
+            <Modal show={updatingCatgory} onClose={closeModal}>
+                <form onSubmit={updateCategory} className="p-6">
                     <header>
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                             Edit Category

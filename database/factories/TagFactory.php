@@ -16,8 +16,11 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->unique()->words(random_int(1, 2), true);
+
         return [
-            'name' => fake()->unique()->word(),
+            'name' => str($name)->title(),
+            'slug' => str($name)->slug('-'),
         ];
     }
 }

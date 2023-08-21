@@ -1,87 +1,20 @@
 import Card from "@/Components/Card";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { JSX } from "react";
 import Tabs from "@/Components/Tabs";
 import Table from "@/Components/Table";
 import EditCategoryModal from "./Categories/EditCategoryModal";
 import CreateCategoryModal from "./Categories/CreateCategoryModal";
+import { Category } from "@/types/codex";
+import { Column } from "@/types/table";
 
-const categories = [
-    {
-        id: 1,
-        name: "Backend Development",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 2,
-        name: "Frontend Development",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 3,
-        name: "CLI Applications",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 4,
-        name: "Cloud Computing",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 5,
-        name: "Databases",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 6,
-        name: "API Development",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 7,
-        name: "Mobile Development",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 8,
-        name: "Data Modeling",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 9,
-        name: "Data Visualization",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-    {
-        id: 10,
-        name: "DevOps & CI/CD",
-        description: "A utility library for make development super efficient",
-        createdAt: "An hour ago",
-        updatedAt: "Two days ago",
-    },
-];
+type Categories = { categories: Category[] };
 
 export default function Categories({ auth }: PageProps): JSX.Element {
+    const { categories } = usePage<PageProps<Categories>>().props;
+
     const tabs: Array<any> = [
         {
             name: "Resources",
@@ -105,7 +38,7 @@ export default function Categories({ auth }: PageProps): JSX.Element {
         },
     ];
 
-    const columns = [
+    const columns: Column[] = [
         {
             key: "id",
             title: "Name",
@@ -115,6 +48,7 @@ export default function Categories({ auth }: PageProps): JSX.Element {
             key: "id",
             title: "Description",
             render: "description",
+            format: "truncate",
         },
         {
             key: "id",
@@ -128,7 +62,9 @@ export default function Categories({ auth }: PageProps): JSX.Element {
         },
         {
             key: "id",
-            render: (item: any) => <EditCategoryModal category={item} />,
+            render: (category: Category) => (
+                <EditCategoryModal category={category} />
+            ),
         },
     ];
 
@@ -142,11 +78,11 @@ export default function Categories({ auth }: PageProps): JSX.Element {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                     <Card className="!p-12">
                         <Table
+                            key="categories-table"
                             title="Categories"
                             data={categories}
                             columns={columns}
-                            description="A list of all the categories including their
-                        name, description, and when they were created and updated"
+                            description="A list of all categories"
                             action={<CreateCategoryModal />}
                         />
                     </Card>

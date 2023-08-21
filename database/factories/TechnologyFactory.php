@@ -17,9 +17,11 @@ class TechnologyFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->words(random_int(1, 3), true);
+
         return [
             'category_id' => Category::factory(),
-            'name' => fake()->unique()->words(3, true),
+            'name' => str($name)->title()->toString(),
         ];
     }
 }
