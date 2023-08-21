@@ -6,6 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
+import TextareaInput from "@/Components/TextareaInput";
 
 export default function CreateCategoryModal() {
     const [creatingCategory, setCreatingCategory] = useState(false);
@@ -77,7 +78,8 @@ export default function CreateCategoryModal() {
                     <div className="mt-6">
                         <InputLabel htmlFor="Description" value="Description" />
 
-                        <TextInput
+                        <TextareaInput
+                            rows={4}
                             id="description"
                             name="description"
                             value={data.description}

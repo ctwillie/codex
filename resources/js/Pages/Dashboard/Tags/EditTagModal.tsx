@@ -22,7 +22,6 @@ export default function EditTagModal({ tag }: EditTagProps) {
         setData,
         patch: update,
         processing,
-        reset,
         errors,
     } = useForm({
         name,
@@ -43,7 +42,6 @@ export default function EditTagModal({ tag }: EditTagProps) {
 
     const closeModal = () => {
         setUpdatingTag(false);
-        reset();
     };
 
     return (

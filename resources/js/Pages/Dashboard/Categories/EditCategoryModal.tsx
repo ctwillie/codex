@@ -7,6 +7,7 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Category } from "@/types/codex";
+import TextareaInput from "@/Components/TextareaInput";
 
 type EditCategoryProps = {
     category: Category;
@@ -22,7 +23,6 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
         setData,
         patch: update,
         processing,
-        reset,
         errors,
     } = useForm({
         name,
@@ -44,7 +44,6 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
 
     const closeModal = () => {
         setUpdatingCatgory(false);
-        reset();
     };
 
     return (
@@ -83,7 +82,8 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
                     <div className="mt-6">
                         <InputLabel htmlFor="Description" value="Description" />
 
-                        <TextInput
+                        <TextareaInput
+                            rows={4}
                             id="description"
                             name="description"
                             value={data.description}
