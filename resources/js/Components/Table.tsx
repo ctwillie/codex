@@ -1,4 +1,5 @@
 import { Column } from "@/types/table";
+import { truncate } from "@/utils";
 import { ReactNode } from "react";
 
 type TableProps = {
@@ -35,11 +36,24 @@ export default function Table({
             : "whitespace-nowrap px-3 py-4 text-sm text-gray-300";
     };
 
+    const formatCellValue = (value: string, format: string): string => {
+        /** Check if a formatter was specified for the column value */
+        if (format === "truncate") {
+            return truncate(value, 60);
+        }
+
+        return value;
+    };
+
+    /**
+     * Given a row data item, loop through the columns and build the table cells
+     */
     const buildTableCells = (dataItem: any) => {
         return columns.map((column, index) => {
-            const { key, title, render } = column;
+            const { key, title, render, format = null } = column;
             const cellKey = `column-${title?.toLowerCase()}-${dataItem[key]}`;
 
+            /** If column render is a function, pass the data item to the renderer */
             if (typeof render === "function") {
                 return (
                     <td key={cellKey} className={$columnStyles(index)}>
@@ -48,9 +62,14 @@ export default function Table({
                 );
             }
 
+            /** Only check for the format property if the render property is a string **/
+            const cellValue = format
+                ? formatCellValue(dataItem[render], format)
+                : dataItem[render];
+
             return (
                 <td key={cellKey} className={$columnStyles(index)}>
-                    {dataItem[render]}
+                    {cellValue}
                 </td>
             );
         });

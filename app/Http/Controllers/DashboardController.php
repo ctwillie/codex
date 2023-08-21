@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\TagResource;
+use App\Http\Resources\TechnologyResource;
+use App\Models\Category;
+use App\Models\Tag;
+use App\Models\Technology;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,16 +29,33 @@ class DashboardController extends Controller
 
     public function categories(): InertiaResponse
     {
-        return Inertia::render('Dashboard/Categories');
+        return Inertia::render('Dashboard/Categories', [
+            'categories' => CategoryResource::collection(Category::all()),
+        ]);
     }
 
     public function technologies(): InertiaResponse
     {
-        return Inertia::render('Dashboard/Technologies');
+
+        $categorySelectOptions = Category::all()->map(function ($category) {
+            return [
+                'id' => $category->uuid,
+                'name' => $category->name,
+            ];
+        });
+
+        $technologies = Technology::with('category')->get();
+
+        return Inertia::render('Dashboard/Technologies', [
+            'categorySelectOptions' => $categorySelectOptions,
+            'technologies' => TechnologyResource::collection($technologies),
+        ]);
     }
 
     public function tags(): InertiaResponse
     {
-        return Inertia::render('Dashboard/Tags');
+        return Inertia::render('Dashboard/Tags', [
+            'tags' => TagResource::collection(Tag::all()),
+        ]);
     }
 }

@@ -27,7 +27,7 @@ type FilterFormProps = {
     className?: string;
 };
 
-export default function FilterForm({
+export default function ResourceSearchForm({
     className,
 }: FilterFormProps): JSX.Element {
     const defaultFormState = {
@@ -80,6 +80,7 @@ export default function FilterForm({
                         onChange={(enabled) => setData("isOfficial", enabled)}
                     />
                 </div>
+
                 <div>
                     <Select
                         id="category"

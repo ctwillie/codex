@@ -7,8 +7,8 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function CreateCategoryModal() {
-    const [creatingCategory, setCreatingCategory] = useState(false);
+export default function CreateTagModal() {
+    const [creatingTag, setCreatingTag] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
 
     const {
@@ -20,41 +20,40 @@ export default function CreateCategoryModal() {
         errors,
     } = useForm({
         name: "",
-        description: "",
     });
 
-    const confirmCreateCategory = () => {
-        setCreatingCategory(true);
+    const confirmCreateTag = () => {
+        setCreatingTag(true);
     };
 
-    const createCategory: FormEventHandler = (e) => {
+    const createTag: FormEventHandler = (e) => {
         e.preventDefault();
 
-        store(route("category.store"), {
+        store(route("tag.store"), {
             onSuccess: () => closeModal(),
             onError: () => nameInput.current?.focus(),
         });
     };
 
     const closeModal = () => {
-        setCreatingCategory(false);
+        setCreatingTag(false);
         reset();
     };
 
     return (
         <>
             <button
-                onClick={confirmCreateCategory}
+                onClick={confirmCreateTag}
                 className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
                 Add
             </button>
 
-            <Modal show={creatingCategory} onClose={closeModal}>
-                <form onSubmit={createCategory} className="p-6">
+            <Modal show={creatingTag} onClose={closeModal}>
+                <form onSubmit={createTag} className="p-6">
                     <header>
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Add Category
+                            Add Tag
                         </h2>
                     </header>
 
@@ -69,22 +68,6 @@ export default function CreateCategoryModal() {
                             onChange={(e) => setData("name", e.target.value)}
                             className="mt-1 block w-3/4"
                             isFocused
-                        />
-
-                        <InputError message={errors.name} className="mt-2" />
-                    </div>
-
-                    <div className="mt-6">
-                        <InputLabel htmlFor="Description" value="Description" />
-
-                        <TextInput
-                            id="description"
-                            name="description"
-                            value={data.description}
-                            onChange={(e) =>
-                                setData("description", e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
                         />
 
                         <InputError message={errors.name} className="mt-2" />

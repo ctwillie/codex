@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +26,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function () {
+    /**
+     * Categories
+     */
+    Route::post('category', [CategoryController::class, 'store'])->name('category.store');
+    Route::patch('category/{category:uuid}', [CategoryController::class, 'update'])->name('category.update');
 
     /**
      * Dashboard
@@ -42,6 +50,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    /**
+     * Tags
+     */
+    Route::post('tag', [TagController::class, 'store'])->name('tag.store');
+    Route::patch('tag/{tag:uuid}', [TagController::class, 'update'])->name('tag.update');
+
+    /**
+     * Technologies
+     */
+    Route::post('technology', [TechnologyController::class, 'store'])->name('technology.store');
+    Route::patch('technology/{technology:uuid}', [TechnologyController::class, 'update'])->name('technology.update');
 });
 
 require __DIR__.'/auth.php';
