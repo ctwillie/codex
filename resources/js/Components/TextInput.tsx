@@ -4,6 +4,7 @@ import {
     useImperativeHandle,
     useRef,
     InputHTMLAttributes,
+    TextareaHTMLAttributes,
 } from "react";
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {

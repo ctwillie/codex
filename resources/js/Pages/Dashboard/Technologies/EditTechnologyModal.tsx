@@ -28,7 +28,6 @@ export default function EditCategoryModal({
         setData,
         patch: update,
         processing,
-        reset,
         errors,
         transform,
     } = useForm({
@@ -63,7 +62,6 @@ export default function EditCategoryModal({
 
     const closeModal = () => {
         setUpdatingTechnology(false);
-        reset();
     };
 
     return (
