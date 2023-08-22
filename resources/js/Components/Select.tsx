@@ -1,13 +1,14 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import clsx from "clsx";
 import { SelectOption } from "@/types/select";
+import classNames from "classnames";
 
 type SelectProps = {
     label: string | null;
     value: SelectOption;
     options: SelectOption[];
+    className?: string | null;
     onChange: (selectedOption: SelectOption) => void;
     [key: string]: any;
 };
@@ -16,6 +17,7 @@ export default function Select({
     label = null,
     value,
     options: selectionOptions,
+    className = null,
     onChange,
     ...restProps
 }: SelectProps) {
@@ -53,16 +55,22 @@ export default function Select({
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm">
+                            <Listbox.Options
+                                className={classNames(
+                                    "absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm",
+                                    className
+                                )}
+                            >
                                 {selectionOptions.map((selectOption) => (
                                     <Listbox.Option
                                         key={selectOption.id}
                                         className={({ active }) =>
-                                            clsx(
-                                                active
-                                                    ? "bg-indigo-600"
-                                                    : "text-gray-900",
-                                                "relative cursor-default select-none py-2 pl-3 pr-9 text-white"
+                                            classNames(
+                                                "relative cursor-default select-none py-2 pl-3 pr-9 text-white",
+                                                {
+                                                    "bg-indigo-600": active,
+                                                    "text-gray-900": !active,
+                                                }
                                             )
                                         }
                                         value={selectOption}
@@ -70,7 +78,7 @@ export default function Select({
                                         {({ selected, active }) => (
                                             <>
                                                 <span
-                                                    className={clsx(
+                                                    className={classNames(
                                                         selected
                                                             ? "font-semibold"
                                                             : "font-normal",
@@ -82,7 +90,7 @@ export default function Select({
 
                                                 {selected ? (
                                                     <span
-                                                        className={clsx(
+                                                        className={classNames(
                                                             active
                                                                 ? "text-white"
                                                                 : "text-indigo-600",
