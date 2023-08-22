@@ -92,7 +92,7 @@ export default function CreateTechnologyModal({
                         <InputError message={errors.name} className="mt-2" />
                     </div>
 
-                    <div className="mt-6">
+                    <div className="mt-6 w-3/4">
                         <Select
                             id="category"
                             label="Category"

@@ -1,6 +1,6 @@
 import { TabOptions } from "@/types/tabs";
 import { Link, router } from "@inertiajs/react";
-import clsx from "clsx";
+import classNames from "classnames";
 
 type TabsProps = {
     tabs: TabOptions[];
@@ -37,7 +37,7 @@ export default function Tabs({ tabs }: TabsProps) {
                             <Link
                                 key={tab.name}
                                 href={tab.href}
-                                className={clsx(
+                                className={classNames(
                                     tab.current
                                         ? "border-indigo-500 text-gray-100"
                                         : "border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-100",

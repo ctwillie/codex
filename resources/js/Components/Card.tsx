@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import classNames from "classnames";
 import { JSX, PropsWithChildren } from "react";
 
 type CardProps = {
@@ -13,7 +13,7 @@ export default function Card({
 }: PropsWithChildren<CardProps>): JSX.Element {
     return (
         <div
-            className={clsx(
+            className={classNames(
                 "p-4 sm:p-6 lg:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg",
                 className
             )}
