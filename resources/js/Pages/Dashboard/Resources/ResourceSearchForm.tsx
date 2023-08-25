@@ -3,62 +3,44 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
 import Select from "@/Components/Select";
 import { SelectOption } from "@/types/select";
 import Toggle from "@/Components/Toggle";
 
-const selectOptions: SelectOption[] = [
-    { id: 1, name: "Wade Cooper" },
-    { id: 2, name: "Arlene Mccoy" },
-    { id: 3, name: "Devon Webb" },
-    { id: 4, name: "Tom Cook" },
-    { id: 5, name: "Tanya Fox" },
-    { id: 6, name: "Hellen Schmidt" },
-    { id: 7, name: "Caroline Schultz" },
-    { id: 8, name: "Mason Heaney" },
-    { id: 9, name: "Claudie Smitham" },
-    { id: 10, name: "Emil Schaefer" },
-];
-
 type FilterFormProps = {
+    categorySelectOptions: SelectOption[];
     className?: string;
 };
 
 export default function ResourceSearchForm({
+    categorySelectOptions,
     className,
 }: FilterFormProps): JSX.Element {
     const defaultFormState = {
-        category: selectOptions[0],
-        text: "",
+        category: null,
+        search: "",
         isOfficial: false,
     };
 
-    const {
-        data,
-        setData,
-        post,
-        errors,
-        processing,
-        recentlySuccessful,
-        transform,
-    } = useForm(defaultFormState);
+    const { data, setData, errors, processing, recentlySuccessful, transform } =
+        useForm(defaultFormState);
 
     transform((data): any => {
-        const { category, isOfficial, text } = data;
+        const { category, isOfficial, search } = data;
 
         return {
-            text,
-            categoryID: category.id,
+            search,
+            categoryId: (category as unknown as SelectOption).value,
             isOfficial,
         };
     });
 
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route("dashboard.search"));
+        router.reload({ data });
     };
 
     return (
@@ -76,7 +58,7 @@ export default function ResourceSearchForm({
             <form onSubmit={onSubmit} className="mt-6 space-y-6">
                 <div>
                     <Toggle
-                        label="Is Official"
+                        label="Official"
                         onChange={(enabled) => setData("isOfficial", enabled)}
                     />
                 </div>
@@ -85,8 +67,8 @@ export default function ResourceSearchForm({
                     <Select
                         id="category"
                         label="Category"
-                        value={data.category}
-                        options={selectOptions}
+                        value={data?.category}
+                        options={categorySelectOptions}
                         onChange={(selectedOption: any) =>
                             setData("category", selectedOption)
                         }
@@ -94,17 +76,16 @@ export default function ResourceSearchForm({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="text" value="Text" />
+                    <InputLabel htmlFor="search" value="Search" />
 
                     <TextInput
-                        id="text"
+                        id="search"
                         className="mt-1 block w-full"
-                        value={data.text}
-                        onChange={(e) => setData("text", e.target.value)}
-                        required
+                        value={data.search}
+                        onChange={(e) => setData("search", e.target.value)}
                     />
 
-                    <InputError className="mt-2" message={errors.text} />
+                    <InputError className="mt-2" message={errors.search} />
                 </div>
 
                 <div className="flex items-center gap-4">

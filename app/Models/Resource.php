@@ -31,9 +31,7 @@ class Resource extends Model
     protected $table = 'resources';
 
     protected $casts = [
-        'category_id' => 'int',
         'is_official' => 'bool',
-        'technology_id' => 'int',
     ];
 
     protected $fillable = [

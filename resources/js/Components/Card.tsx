@@ -14,7 +14,7 @@ export default function Card({
     return (
         <div
             className={classNames(
-                "p-4 sm:p-6 lg:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg",
+                "p-4 sm:p-8 lg:p-12 bg-white dark:bg-gray-800 dark:text-gray-100 shadow sm:rounded-lg",
                 className
             )}
             {...restProps}

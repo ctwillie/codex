@@ -64,7 +64,7 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
                     </header>
 
                     <div className="mt-6">
-                        <InputLabel htmlFor="Name" value="Name" />
+                        <InputLabel htmlFor="name" value="Name" />
 
                         <TextInput
                             ref={nameInput}
@@ -73,6 +73,7 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             className="mt-1 block w-3/4"
+                            autoComplete="off"
                             isFocused
                         />
 
@@ -80,7 +81,7 @@ export default function EditCategoryModal({ category }: EditCategoryProps) {
                     </div>
 
                     <div className="mt-6">
-                        <InputLabel htmlFor="Description" value="Description" />
+                        <InputLabel htmlFor="description" value="Description" />
 
                         <TextareaInput
                             rows={4}

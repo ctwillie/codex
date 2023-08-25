@@ -84,7 +84,7 @@ export default function Technologies({
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
-                    <Card className="!p-12">
+                    <Card>
                         <Table
                             key="technologies-table"
                             title="Technologies"

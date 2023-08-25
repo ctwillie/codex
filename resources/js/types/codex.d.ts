@@ -1,5 +1,7 @@
+import { UUID } from "@/types/index";
+
 export type Category = {
-    id: string;
+    id: UUID;
     name: string;
     description: string;
     createdAt: string;
@@ -7,16 +9,28 @@ export type Category = {
 };
 
 export type Tag = {
-    id: string;
+    id: UUID;
     name: string;
     createdAt: string;
     updatedAt: string;
 };
 
 export type Technology = {
-    id: string;
+    id: UUID;
     name: string;
     category: Category;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type Resource = {
+    id: UUID;
+    name: string;
+    url: string;
+    isOfficial: boolean;
+    category: Category;
+    technology: Technology;
+    tags: Tag[];
     createdAt: string;
     updatedAt: string;
 };

@@ -22,7 +22,7 @@ class ResourceFactory extends Factory
             'category_id' => Category::factory(),
             'technology_id' => Technology::factory(),
             'is_official' => false,
-            'name' => fake()->unique()->words(3, true),
+            'name' => str(fake()->unique()->words(3, true))->title()->toString(),
             'url' => fake()->unique()->url(),
         ];
     }
