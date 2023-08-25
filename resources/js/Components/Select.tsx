@@ -1,12 +1,12 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { SelectOption } from "@/types/select";
+import { EmptySelectOption, SelectOption } from "@/types/select";
 import classNames from "classnames";
 
 type SelectProps = {
     label: string | null;
-    value: SelectOption;
+    value: SelectOption | null;
     options: SelectOption[];
     className?: string | null;
     onChange: (selectedOption: SelectOption) => void;
@@ -21,7 +21,16 @@ export default function Select({
     onChange,
     ...restProps
 }: SelectProps) {
-    const [selected, setSelected] = useState(value);
+    // TODO: account for is required or optional
+    // prepend empty option if not required
+    const emptySelectOption: EmptySelectOption = {
+        label: "Select an option",
+        value: null,
+    };
+
+    let defaultValue = value === null ? emptySelectOption : value;
+    selectionOptions = [emptySelectOption, ...selectionOptions];
+    const [selected, setSelected] = useState(defaultValue);
 
     const onSelectChange = (selectedOption: SelectOption) => {
         setSelected(selectedOption);
@@ -32,13 +41,16 @@ export default function Select({
         <Listbox value={selected} onChange={onSelectChange} {...restProps}>
             {({ open }) => (
                 <>
-                    <Listbox.Label className="block font-medium text-sm text-gray-700 dark:text-gray-300">
-                        {label}
-                    </Listbox.Label>
+                    {label && (
+                        <Listbox.Label className="block font-medium text-sm text-gray-700 dark:text-gray-300">
+                            {label}
+                        </Listbox.Label>
+                    )}
+
                     <div className="relative mt-2">
-                        <Listbox.Button className="relative w-full cursor-default rounded-md bg-white dark:bg-gray-800 py-1.5 pl-3 pr-10 text-left text-white shadow-sm ring-1 ring-inset ring-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white dark:bg-gray-800 py-1.5 pl-3 pr-10 text-left text-white shadow-sm ring-1 ring-inset ring-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                             <span className="block truncate">
-                                {selected.name}
+                                {selected?.label || "Select an option"}
                             </span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <ChevronUpDownIcon
@@ -63,7 +75,7 @@ export default function Select({
                             >
                                 {selectionOptions.map((selectOption) => (
                                     <Listbox.Option
-                                        key={selectOption.id}
+                                        key={selectOption.value}
                                         className={({ active }) =>
                                             classNames(
                                                 "relative cursor-default select-none py-2 pl-3 pr-9 text-white",
@@ -85,7 +97,7 @@ export default function Select({
                                                         "block truncate"
                                                     )}
                                                 >
-                                                    {selectOption.name}
+                                                    {selectOption.label}
                                                 </span>
 
                                                 {selected ? (

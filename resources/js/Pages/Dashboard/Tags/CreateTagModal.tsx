@@ -58,7 +58,7 @@ export default function CreateTagModal() {
                     </header>
 
                     <div className="mt-6">
-                        <InputLabel htmlFor="Name" value="Name" />
+                        <InputLabel htmlFor="name" value="Name" />
 
                         <TextInput
                             ref={nameInput}
@@ -67,6 +67,7 @@ export default function CreateTagModal() {
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             className="mt-1 block w-3/4"
+                            autoComplete="off"
                             isFocused
                         />
 

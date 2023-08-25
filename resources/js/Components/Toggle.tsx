@@ -32,7 +32,7 @@ export default function Toggle({
         >
             {label && labelPosition === "left" && (
                 <Switch.Label as="span" className="mr-3 text-sm">
-                    <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                    <span className="font-medium text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                         {label}
                     </span>
                 </Switch.Label>
@@ -57,7 +57,7 @@ export default function Toggle({
 
             {label && labelPosition === "right" && (
                 <Switch.Label as="span" className="ml-3 text-sm">
-                    <span className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                    <span className="font-medium text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                         {label}
                     </span>
                 </Switch.Label>

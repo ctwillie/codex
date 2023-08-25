@@ -7,3 +7,5 @@ export type PageProps<
         user: User;
     };
 };
+
+export type UUID = string;
