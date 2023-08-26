@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* change text selection background color */
+::selection {
+    color: #fff;
+    background: #eb65e0; /* WebKit/Blink Browsers */
+}
