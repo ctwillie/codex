@@ -7,10 +7,10 @@ import ResourceSearchForm from "@/Pages/Dashboard/Resources/ResourceSearchForm";
 import Tabs from "@/Components/Tabs";
 import Divider from "@/Components/Divider";
 import { Resource } from "@/types/codex";
-import ResourceListItem from "./Resources/ResouceListItem";
+import ResourceListItem from "@/Pages/Dashboard/Resources/ResouceListItem";
 import { SelectOption } from "@/types/select";
 import EmptyState from "@/Components/EmptyState";
-import CreateResourceModal from "./Resources/CreateResourceModal";
+import CreateResourceModal from "@/Pages/Dashboard/Resources/CreateResourceModal";
 
 type ResourcesProps = {
     resources: Resource[];

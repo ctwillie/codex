@@ -1,8 +1,7 @@
 import { Column } from "@/types/table";
 import { truncate } from "@/utils";
 import { ReactNode } from "react";
-import EmptyState from "./EmptyState";
-import EmptyTableState from "./EmptyTableState";
+import EmptyTableState from "@/Components/EmptyTableState";
 
 type TableProps = {
     title: string;
