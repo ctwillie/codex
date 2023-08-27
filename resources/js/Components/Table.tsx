@@ -1,6 +1,8 @@
 import { Column } from "@/types/table";
 import { truncate } from "@/utils";
 import { ReactNode } from "react";
+import EmptyState from "./EmptyState";
+import EmptyTableState from "./EmptyTableState";
 
 type TableProps = {
     title: string;
@@ -112,11 +114,15 @@ export default function Table({
                             </thead>
 
                             <tbody className="divide-y divide-gray-800">
-                                {data.map((dataItem) => (
-                                    <tr key={dataItem.name}>
-                                        {buildTableCells(dataItem)}
-                                    </tr>
-                                ))}
+                                {data.length > 0 ? (
+                                    data.map((dataItem) => (
+                                        <tr key={dataItem.name}>
+                                            {buildTableCells(dataItem)}
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <EmptyTableState colSpan={columns.length} />
+                                )}
                             </tbody>
                         </table>
                     </div>

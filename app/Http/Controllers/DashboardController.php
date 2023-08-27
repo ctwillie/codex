@@ -27,6 +27,13 @@ class DashboardController extends Controller
             ];
         });
 
+        $technologySelectOptions = Technology::all()->map(function ($technology) {
+            return [
+                'label' => $technology->name,
+                'value' => $technology->uuid,
+            ];
+        });
+
         // TODO: refactor this once a filter system is in place
         $resources = Resource::with(['category', 'technology', 'tags'])
             ->when(! empty($queryParams['category']), function ($query) use ($queryParams) {
@@ -47,6 +54,7 @@ class DashboardController extends Controller
             'resources' => ResourceResource::collection($resources),
             'resultsCount' => $resources->count(),
             'categorySelectOptions' => $categorySelectOptions,
+            'technologySelectOptions' => $technologySelectOptions,
         ]);
     }
 
