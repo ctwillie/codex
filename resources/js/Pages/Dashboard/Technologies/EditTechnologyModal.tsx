@@ -33,8 +33,8 @@ export default function EditCategoryModal({
     } = useForm({
         name,
         category: {
-            id: technology.category.id,
-            name: technology.category.name,
+            value: technology.category.id,
+            label: technology.category.name,
         },
     });
 
@@ -56,7 +56,7 @@ export default function EditCategoryModal({
 
         return {
             name,
-            categoryId: category.id,
+            categoryId: category.value,
         };
     });
 
