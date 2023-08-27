@@ -7,13 +7,16 @@ import ResourceSearchForm from "@/Pages/Dashboard/Resources/ResourceSearchForm";
 import Tabs from "@/Components/Tabs";
 import Divider from "@/Components/Divider";
 import { Resource } from "@/types/codex";
-import ResourceListItem from "./Resources/ResouceListItem";
+import ResourceListItem from "@/Pages/Dashboard/Resources/ResouceListItem";
 import { SelectOption } from "@/types/select";
+import EmptyState from "@/Components/EmptyState";
+import CreateResourceModal from "@/Pages/Dashboard/Resources/CreateResourceModal";
 
 type ResourcesProps = {
     resources: Resource[];
     resultsCount: number;
     categorySelectOptions: SelectOption[];
+    technologySelectOptions: SelectOption[];
 };
 
 export default function Resources({
@@ -21,6 +24,7 @@ export default function Resources({
     resources,
     resultsCount,
     categorySelectOptions,
+    technologySelectOptions,
 }: PageProps<ResourcesProps>): JSX.Element {
     const tabs: Array<any> = [
         {
@@ -66,10 +70,22 @@ export default function Resources({
                     </Card>
 
                     <Card>
-                        <div className="flex justify-end mb-6 -mt-6">
-                            <h2 className="text-sm dark:text-gray-400">
-                                {resultsCount} results
-                            </h2>
+                        <div className="flex justify-end">
+                            <div className="flex items-center">
+                                <p className="sm:flex-auto text-gray-400">
+                                    {resultsCount} results
+                                </p>
+                                <span className="mt-4 sm:ml-8 sm:mt-0 sm:flex-none">
+                                    <CreateResourceModal
+                                        categorySelectOptions={
+                                            categorySelectOptions
+                                        }
+                                        technologySelectOptions={
+                                            technologySelectOptions
+                                        }
+                                    />
+                                </span>
+                            </div>
                         </div>
 
                         {resources.length > 0 ? (
@@ -80,19 +96,11 @@ export default function Resources({
                                 </Fragment>
                             ))
                         ) : (
-                            <EmptyResourceState />
+                            <EmptyState className="mt-10" />
                         )}
                     </Card>
                 </div>
             </div>
         </AuthenticatedLayout>
-    );
-}
-
-function EmptyResourceState(): JSX.Element {
-    return (
-        <div className="flex flex-col items-center justify-center">
-            <p className="text-gray-500 text-sm">Sorry, nothing to see here</p>
-        </div>
     );
 }

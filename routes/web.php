@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,12 @@ Route::middleware('auth')->group(function () {
      */
     Route::post('technology', [TechnologyController::class, 'store'])->name('technology.store');
     Route::patch('technology/{technology:uuid}', [TechnologyController::class, 'update'])->name('technology.update');
+
+    /**
+     * Resources
+     */
+    Route::post('resource', [ResourceController::class, 'store'])->name('resource.store');
+    Route::patch('resource/{resource:uuid}', [ResourceController::class, 'update'])->name('resource.update');
 });
 
 require __DIR__.'/auth.php';
