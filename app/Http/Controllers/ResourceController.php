@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreResourceRequest;
+use App\Http\Requests\UpdateResourceRequest;
 use App\Models\Resource;
 
 class ResourceController extends Controller
@@ -21,11 +22,11 @@ class ResourceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(UpdateTechnologyRequest $request, Resource $resource)
-    // {
-    //     $resource->update($request->validated());
+    public function update(UpdateResourceRequest $request, Resource $resource)
+    {
+        $resource->update($request->validated());
 
-    //     return to_route('dashboard')
-    //         ->with('message', 'Resource updated successfully');
-    // }
+        return to_route('dashboard')
+            ->with('message', 'Resource updated successfully');
+    }
 }
