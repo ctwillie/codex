@@ -91,7 +91,15 @@ export default function Resources({
                         {resources.length > 0 ? (
                             resources.map((resource) => (
                                 <Fragment key={resource.id}>
-                                    <ResourceListItem resource={resource} />
+                                    <ResourceListItem
+                                        resource={resource}
+                                        categorySelectOptions={
+                                            categorySelectOptions
+                                        }
+                                        technologySelectOptions={
+                                            technologySelectOptions
+                                        }
+                                    />
                                     <Divider />
                                 </Fragment>
                             ))
