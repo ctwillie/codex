@@ -7,14 +7,12 @@ import classNames from "classnames";
 
 type ResourceListItemProps = {
     resource: Resource;
-    categorySelectOptions: SelectOption[];
     technologySelectOptions: SelectOption[];
     className?: string;
 };
 
 export default function ResourceListItem({
     resource,
-    categorySelectOptions,
     technologySelectOptions,
     className = "",
 }: ResourceListItemProps): JSX.Element {
@@ -91,7 +89,6 @@ export default function ResourceListItem({
             <div>
                 <EditResourceModal
                     resource={resource}
-                    categorySelectOptions={categorySelectOptions}
                     technologySelectOptions={technologySelectOptions}
                 />
             </div>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use App\Models\Technology;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -45,10 +44,12 @@ class UpdateResourceRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $technology = Technology::firstWhere('uuid', $this->input('technologyId'));
+
         $this->merge([
             'is_official' => $this->input('isOfficial'),
-            'category_id' => Category::firstWhere('uuid', $this->input('categoryId'))?->id,
-            'technology_id' => Technology::firstWhere('uuid', $this->input('technologyId'))?->id,
+            'category_id' => $technology?->category?->id,
+            'technology_id' => $technology?->id,
         ]);
     }
 }

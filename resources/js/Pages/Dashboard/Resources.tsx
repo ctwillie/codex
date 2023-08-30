@@ -70,16 +70,13 @@ export default function Resources({
                     </Card>
 
                     <Card>
-                        <div className="flex justify-end">
+                        <div className="flex justify-end mb-12">
                             <div className="flex items-center">
                                 <p className="sm:flex-auto text-gray-400">
                                     {resultsCount} results
                                 </p>
                                 <span className="mt-4 sm:ml-8 sm:mt-0 sm:flex-none">
                                     <CreateResourceModal
-                                        categorySelectOptions={
-                                            categorySelectOptions
-                                        }
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }
@@ -93,9 +90,6 @@ export default function Resources({
                                 <Fragment key={resource.id}>
                                     <ResourceListItem
                                         resource={resource}
-                                        categorySelectOptions={
-                                            categorySelectOptions
-                                        }
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }
