@@ -12,13 +12,11 @@ import Toggle from "@/Components/Toggle";
 import { Resource } from "@/types/codex";
 
 type EditResourceModalProps = {
-    categorySelectOptions: SelectOption[];
     resource: Resource;
     technologySelectOptions: SelectOption[];
 };
 
 export default function EditResourceModal({
-    categorySelectOptions,
     resource,
     technologySelectOptions,
 }: EditResourceModalProps): JSX.Element {
@@ -41,10 +39,6 @@ export default function EditResourceModal({
             value: technology.id,
             label: technology.name,
         },
-        category: {
-            value: category.id,
-            label: category.name,
-        },
     });
 
     const confirmEditResource = () => {
@@ -61,12 +55,11 @@ export default function EditResourceModal({
     };
 
     transform((data): any => {
-        const { category, technology, isOfficial, name, url } = data;
+        const { technology, isOfficial, name, url } = data;
 
         return {
             name,
             isOfficial,
-            categoryId: category?.value,
             technologyId: technology?.value,
             url,
         };
@@ -133,18 +126,6 @@ export default function EditResourceModal({
                         />
 
                         <InputError message={errors.name} className="mt-2" />
-                    </div>
-
-                    <div className="mt-6 w-3/4">
-                        <Select
-                            id="category"
-                            label="Category"
-                            value={data.category}
-                            options={categorySelectOptions}
-                            onChange={(selectedOption: any) =>
-                                setData("category", selectedOption)
-                            }
-                        />
                     </div>
 
                     <div className="mt-6 w-3/4">

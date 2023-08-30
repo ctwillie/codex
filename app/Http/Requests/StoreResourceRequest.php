@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use App\Models\Technology;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -34,10 +33,12 @@ class StoreResourceRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $technology = Technology::firstWhere('uuid', $this->input('technologyId'));
+
         $this->merge([
-            'category_id' => Category::firstWhere('uuid', $this->input('categoryId'))?->id,
             'is_official' => $this->input('isOfficial'),
-            'technology_id' => Technology::firstWhere('uuid', $this->input('technologyId'))?->id,
+            'category_id' => $technology?->category?->id,
+            'technology_id' => $technology?->id,
         ]);
     }
 }

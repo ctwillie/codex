@@ -11,12 +11,10 @@ import { SelectOption } from "@/types/select";
 import Toggle from "@/Components/Toggle";
 
 type CreateResourceModalProps = {
-    categorySelectOptions: SelectOption[];
     technologySelectOptions: SelectOption[];
 };
 
 export default function CreateResourceModal({
-    categorySelectOptions,
     technologySelectOptions,
 }: CreateResourceModalProps): JSX.Element {
     const [creatingResource, setCreatingResource] = useState(false);
@@ -34,7 +32,6 @@ export default function CreateResourceModal({
         name: "",
         isOfficial: false,
         technology: technologySelectOptions[0],
-        category: categorySelectOptions[0],
         url: "",
     });
 
@@ -52,12 +49,11 @@ export default function CreateResourceModal({
     };
 
     transform((data): any => {
-        const { category, technology, isOfficial, name, url } = data;
+        const { technology, isOfficial, name, url } = data;
 
         return {
             name,
             isOfficial,
-            categoryId: category?.value,
             technologyId: technology?.value,
             url,
         };
@@ -124,18 +120,6 @@ export default function CreateResourceModal({
                         />
 
                         <InputError message={errors.name} className="mt-2" />
-                    </div>
-
-                    <div className="mt-6 w-3/4">
-                        <Select
-                            id="category"
-                            label="Category"
-                            value={data.category}
-                            options={categorySelectOptions}
-                            onChange={(selectedOption: any) =>
-                                setData("category", selectedOption)
-                            }
-                        />
                     </div>
 
                     <div className="mt-6 w-3/4">
