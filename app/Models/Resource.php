@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +43,9 @@ class Resource extends Model
         'url',
     ];
 
+    /**
+     * Relationships
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -56,5 +60,46 @@ class Resource extends Model
     {
         return $this->belongsToMany(Tag::class)
             ->withTimestamps();
+    }
+
+    /**
+     * Scopes
+     */
+    public function scopeFiltered(Builder $query, array $searchFilters)
+    {
+        $isOfficial = $searchFilters['isOfficial'] ?? null;
+        $search = $searchFilters['search'] ?? null;
+        $categoryId = $searchFilters['categoryId'] ?? null;
+        $technologyId = $searchFilters['technologyId'] ?? null;
+
+        if (! empty($isOfficial) && $isOfficial === 'true') {
+            $query->where('is_official', 1);
+        }
+
+        if (! empty($search)) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        if (! empty($categoryId) && ! empty($technologyId)) {
+            $query->where(function ($query) use ($categoryId, $technologyId) {
+                $query->whereHas('category', function ($q) use ($categoryId) {
+                    $q->where('uuid', $categoryId);
+                })->orWhereHas('technology', function ($query) use ($technologyId) {
+                    $query->where('uuid', $technologyId);
+                });
+            });
+        }
+
+        if (! empty($categoryId) && empty($technologyId)) {
+            $query->whereHas('category', function ($q) use ($categoryId) {
+                $q->where('uuid', $categoryId);
+            });
+        }
+
+        if (! empty($technologyId) && empty($categoryId)) {
+            $query->whereHas('technology', function ($q) use ($technologyId) {
+                $q->where('uuid', $technologyId);
+            });
+        }
     }
 }

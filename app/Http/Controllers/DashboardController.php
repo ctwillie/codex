@@ -18,8 +18,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
-        $queryParams = $request->query();
-
         $categorySelectOptions = Category::all()->map(function ($category) {
             return [
                 'label' => $category->name,
@@ -34,22 +32,11 @@ class DashboardController extends Controller
             ];
         });
 
-        // TODO: refactor this once a filter system is in place
-        $resources = Resource::with(['category', 'technology', 'tags'])
-            ->when(! empty($queryParams['category']), function ($query) use ($queryParams) {
-                $query->whereHas('category', function ($query) use ($queryParams) {
-                    $query->where('uuid', $queryParams['category']['value']);
-                });
-            })
-            ->when(! empty($queryParams['isOfficial']), function ($query) use ($queryParams) {
-                $query->where('is_official', (bool) $queryParams['isOfficial']);
-            })
-            ->when(! empty($queryParams['search']), function ($query) use ($queryParams) {
-                $query->where('name', 'like', "%{$queryParams['search']}%");
-            })
+        $resources = Resource::filtered($request->query())
+            ->with('category', 'technology', 'tags')
             ->get();
 
-        // lazy load what isn't needed on every request
+        // TODO: lazy load what isn't needed on every request
         return Inertia::render('Dashboard/Resources', [
             'resources' => ResourceResource::collection($resources),
             'resultsCount' => $resources->count(),
