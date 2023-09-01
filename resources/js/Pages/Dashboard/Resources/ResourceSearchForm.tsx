@@ -4,7 +4,6 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { router, useForm } from "@inertiajs/react";
-import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
 import Select from "@/Components/Select";
 import { SelectOption } from "@/types/select";
@@ -12,46 +11,58 @@ import Toggle from "@/Components/Toggle";
 
 type FilterFormProps = {
     categorySelectOptions: SelectOption[];
+    technologySelectOptions: SelectOption[];
     className?: string;
 };
 
 export default function ResourceSearchForm({
     categorySelectOptions,
+    technologySelectOptions,
     className,
 }: FilterFormProps): JSX.Element {
     const defaultFormState = {
         category: null,
+        technology: null,
         search: "",
         isOfficial: false,
     };
 
-    const { data, setData, errors, processing, recentlySuccessful, transform } =
+    const { data, setData, errors, processing, transform } =
         useForm(defaultFormState);
 
     transform((data): any => {
-        const { category, isOfficial, search } = data;
+        const { category, technology, isOfficial, search } = data;
 
         return {
             search,
-            categoryId: (category as unknown as SelectOption).value,
             isOfficial,
+            categoryId: (category as unknown as SelectOption).value,
+            technologyId: (technology as unknown as SelectOption).value,
         };
     });
 
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.reload({ data });
+        const { category, technology, isOfficial, search } = data;
+        router.reload({
+            data: {
+                search: search || undefined,
+                isOfficial,
+                categoryId: (category as unknown as SelectOption)?.value,
+                technologyId: (technology as unknown as SelectOption)?.value,
+            },
+        });
     };
 
     return (
         <section className={className}>
-            <header>
+            <header className="mb-10">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Search Filters
+                    Search
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Find the resources you are looking for
+                    Find what your're looking for
                 </p>
             </header>
 
@@ -63,16 +74,29 @@ export default function ResourceSearchForm({
                     />
                 </div>
 
-                <div>
-                    <Select
-                        id="category"
-                        label="Category"
-                        value={data?.category}
-                        options={categorySelectOptions}
-                        onChange={(selectedOption: any) =>
-                            setData("category", selectedOption)
-                        }
-                    />
+                <div className="sm:flex space-y-6 sm:space-y-0 sm:space-x-8">
+                    <div className="sm:w-1/2">
+                        <Select
+                            id="category"
+                            label="Category"
+                            value={data?.category}
+                            options={categorySelectOptions}
+                            onChange={(selectedOption: any) =>
+                                setData("category", selectedOption)
+                            }
+                        />
+                    </div>
+                    <div className="sm:w-1/2">
+                        <Select
+                            id="technology"
+                            label="Technology"
+                            value={data?.technology}
+                            options={technologySelectOptions}
+                            onChange={(selectedOption: any) =>
+                                setData("technology", selectedOption)
+                            }
+                        />
+                    </div>
                 </div>
 
                 <div>
@@ -88,20 +112,8 @@ export default function ResourceSearchForm({
                     <InputError className="mt-2" message={errors.search} />
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 justify-end">
                     <PrimaryButton disabled={processing}>Search</PrimaryButton>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Saved.
-                        </p>
-                    </Transition>
                 </div>
             </form>
         </section>

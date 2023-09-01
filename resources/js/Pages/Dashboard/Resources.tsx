@@ -66,6 +66,7 @@ export default function Resources({
                     <Card>
                         <ResourceSearchForm
                             categorySelectOptions={categorySelectOptions}
+                            technologySelectOptions={technologySelectOptions}
                         />
                     </Card>
 
