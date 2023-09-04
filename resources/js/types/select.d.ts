@@ -1,11 +1,17 @@
-export type ValueSelectOption = {
+export type ValueSelectOption<T extends object = {}> = {
     label: string;
     value: string | number;
-};
+} & T;
 
-export type EmptySelectOption = {
-    label: string;
-    value: null;
-};
+// export type EmptySelectOption<T extends object = {}> = {
+//     label: string;
+//     value: null;
+// } & T;
 
-export type SelectOption = ValueSelectOption | EmptySelectOption;
+export type SelectOption<T extends object = {}> = ValueSelectOption<T>;
+
+// | EmptySelectOption<T>;
+
+export type TechnologySelectOption = SelectOption<{
+    categoryId: string;
+}>;

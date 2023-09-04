@@ -1,4 +1,4 @@
-import { JSX, useRef, useState, FormEventHandler } from "react";
+import { JSX, useRef, useState, FormEventHandler, ChangeEvent } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
@@ -7,14 +7,16 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Select from "@/Components/Select";
-import { SelectOption } from "@/types/select";
+import { SelectOption, TechnologySelectOption } from "@/types/select";
 import Toggle from "@/Components/Toggle";
 
 type CreateResourceModalProps = {
-    technologySelectOptions: SelectOption[];
+    categorySelectOptions: SelectOption[];
+    technologySelectOptions: TechnologySelectOption[];
 };
 
 export default function CreateResourceModal({
+    categorySelectOptions,
     technologySelectOptions,
 }: CreateResourceModalProps): JSX.Element {
     const [creatingResource, setCreatingResource] = useState(false);
@@ -27,11 +29,11 @@ export default function CreateResourceModal({
         processing,
         reset,
         errors,
-        transform,
     } = useForm({
         name: "",
         isOfficial: false,
-        technology: technologySelectOptions[0],
+        categoryId: categorySelectOptions[0].value,
+        technologyId: "",
         url: "",
     });
 
@@ -48,21 +50,22 @@ export default function CreateResourceModal({
         });
     };
 
-    transform((data): any => {
-        const { technology, isOfficial, name, url } = data;
-
-        return {
-            name,
-            isOfficial,
-            technologyId: technology?.value,
-            url,
-        };
-    });
-
     const closeModal = () => {
         setCreatingResource(false);
         reset();
     };
+
+    const sekectedTechnologyKeys = data.technologyId?.length
+        ? [data.technologyId]
+        : [];
+
+    const filteredTechnologySelectOptions = technologySelectOptions.filter(
+        (item: TechnologySelectOption) => {
+            if (!data.categoryId) return true;
+
+            return item.categoryId === data.categoryId;
+        }
+    );
 
     return (
         <>
@@ -102,6 +105,7 @@ export default function CreateResourceModal({
                             className="mt-1 block w-3/4"
                             autoComplete="off"
                             isFocused
+                            required
                         />
 
                         <InputError message={errors.name} className="mt-2" />
@@ -117,20 +121,47 @@ export default function CreateResourceModal({
                             onChange={(e) => setData("url", e.target.value)}
                             className="mt-1 block w-3/4"
                             autoComplete="off"
+                            required
                         />
 
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.url} className="mt-2" />
                     </div>
 
                     <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="categoryId"
+                            value="Catgory"
+                            className="mb-1"
+                        />
                         <Select
-                            id="technology"
-                            label="Technology"
-                            value={data.technology}
-                            options={technologySelectOptions}
-                            onChange={(selectedOption: any) =>
-                                setData("technology", selectedOption)
-                            }
+                            id="categoryId"
+                            placeholder="Select a category"
+                            options={categorySelectOptions}
+                            selectedKeys={[data.categoryId]}
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                setData((data) => ({
+                                    ...data,
+                                    categoryId: e.target.value,
+                                    technologyId: "",
+                                }));
+                            }}
+                        />
+                    </div>
+
+                    <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="technologyId"
+                            value="Technology"
+                            className="mb-1"
+                        />
+                        <Select
+                            id="technologyId"
+                            placeholder="Select a technology"
+                            selectedKeys={sekectedTechnologyKeys}
+                            options={filteredTechnologySelectOptions}
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                setData("technologyId", e.target.value);
+                            }}
                         />
                     </div>
 

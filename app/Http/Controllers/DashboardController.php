@@ -25,12 +25,14 @@ class DashboardController extends Controller
             ];
         });
 
-        $technologySelectOptions = Technology::all()->map(function ($technology) {
-            return [
-                'label' => $technology->name,
-                'value' => $technology->uuid,
-            ];
-        });
+        $technologySelectOptions = Technology::with('category')
+            ->get()->map(function ($technology) {
+                return [
+                    'label' => $technology->name,
+                    'value' => $technology->uuid,
+                    'categoryId' => $technology->category->uuid,
+                ];
+            });
 
         $resources = Resource::filtered($request->query())
             ->with('category', 'technology', 'tags')

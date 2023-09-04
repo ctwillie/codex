@@ -2,23 +2,24 @@ import { JSX } from "react";
 import Badge from "@/Components/Badge";
 import { Resource } from "@/types/codex";
 import EditResourceModal from "@/Pages/Dashboard/Resources/EditResourceModal";
-import { SelectOption } from "@/types/select";
+import { SelectOption, TechnologySelectOption } from "@/types/select";
 import classNames from "classnames";
 
 type ResourceListItemProps = {
     resource: Resource;
-    technologySelectOptions: SelectOption[];
+    categorySelectOptions: SelectOption[];
+    technologySelectOptions: TechnologySelectOption[];
     className?: string;
 };
 
 export default function ResourceListItem({
     resource,
+    categorySelectOptions,
     technologySelectOptions,
     className = "",
 }: ResourceListItemProps): JSX.Element {
     const { id: resourceId, name, isOfficial, url, tags } = resource;
-    const { name: categoryName } = resource.category;
-    const { name: technologyName } = resource.technology;
+    const { category, technology } = resource;
 
     return (
         <div
@@ -74,7 +75,8 @@ export default function ResourceListItem({
                 </p>
 
                 <p className="text-sm text-gray-400">
-                    {categoryName} &middot; {technologyName}
+                    {category.name} {technology && <span>&middot;</span>}{" "}
+                    {technology?.name}
                 </p>
 
                 <div className="flex justify-items-start mt-6">
@@ -89,6 +91,7 @@ export default function ResourceListItem({
             <div>
                 <EditResourceModal
                     resource={resource}
+                    categorySelectOptions={categorySelectOptions}
                     technologySelectOptions={technologySelectOptions}
                 />
             </div>

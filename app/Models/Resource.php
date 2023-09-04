@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Category $category
- * @property Technology $technology
+ * @property Technology|null $technology
  * @property Collection|Tag[] $tags
  */
 class Resource extends Model
@@ -82,10 +82,11 @@ class Resource extends Model
 
         if (! empty($categoryId) && ! empty($technologyId)) {
             $query->where(function ($query) use ($categoryId, $technologyId) {
-                $query->whereHas('category', function ($q) use ($categoryId) {
-                    $q->where('uuid', $categoryId);
-                })->orWhereHas('technology', function ($query) use ($technologyId) {
-                    $query->where('uuid', $technologyId);
+                $query->whereHas('category', function ($q) use ($categoryId, $technologyId) {
+                    $q->where('uuid', $categoryId)
+                        ->whereHas('technologies', function ($query) use ($technologyId) {
+                            $query->where('uuid', $technologyId);
+                        });
                 });
             });
         }
