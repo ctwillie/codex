@@ -8,7 +8,7 @@ import Tabs from "@/Components/Tabs";
 import Divider from "@/Components/Divider";
 import { Resource } from "@/types/codex";
 import ResourceListItem from "@/Pages/Dashboard/Resources/ResouceListItem";
-import { SelectOption } from "@/types/select";
+import { SelectOption, TechnologySelectOption } from "@/types/select";
 import EmptyState from "@/Components/EmptyState";
 import CreateResourceModal from "@/Pages/Dashboard/Resources/CreateResourceModal";
 
@@ -16,7 +16,7 @@ type ResourcesProps = {
     resources: Resource[];
     resultsCount: number;
     categorySelectOptions: SelectOption[];
-    technologySelectOptions: SelectOption[];
+    technologySelectOptions: TechnologySelectOption[];
 };
 
 export default function Resources({
@@ -52,7 +52,6 @@ export default function Resources({
     /**
      * TODO: list
      * - [ ] preserve state on page refresh
-     * - [ ] show results count
      */
 
     return (
@@ -78,6 +77,9 @@ export default function Resources({
                                 </p>
                                 <span className="mt-4 sm:ml-8 sm:mt-0 sm:flex-none">
                                     <CreateResourceModal
+                                        categorySelectOptions={
+                                            categorySelectOptions
+                                        }
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }
@@ -91,6 +93,9 @@ export default function Resources({
                                 <Fragment key={resource.id}>
                                     <ResourceListItem
                                         resource={resource}
+                                        categorySelectOptions={
+                                            categorySelectOptions
+                                        }
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }

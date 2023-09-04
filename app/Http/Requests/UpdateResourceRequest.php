@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use App\Models\Technology;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class UpdateResourceRequest extends FormRequest
         return [
             'category_id' => ['required', 'exists:categories,id'],
             'is_official' => ['required', 'boolean'],
-            'technology_id' => ['required', 'exists:technologies,id'],
+            'technology_id' => ['nullable', 'exists:technologies,id'],
             'name' => [
                 'required',
                 'string',
@@ -44,11 +45,17 @@ class UpdateResourceRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $technology = Technology::firstWhere('uuid', $this->input('technologyId'));
+        $category = Category::firstWhere('uuid', $this->input('categoryId'));
+
+        /** Ensure the technology belongs to the request category */
+        $technology = Technology::firstWhere([
+            'uuid' => $this->input('technologyId'),
+            'category_id' => $category?->id,
+        ]);
 
         $this->merge([
             'is_official' => $this->input('isOfficial'),
-            'category_id' => $technology?->category?->id,
+            'category_id' => $category?->id,
             'technology_id' => $technology?->id,
         ]);
     }

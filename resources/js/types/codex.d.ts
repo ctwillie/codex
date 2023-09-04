@@ -29,7 +29,7 @@ export type Resource = {
     url: string;
     isOfficial: boolean;
     category: Category;
-    technology: Technology;
+    technology?: Technology;
     tags: Tag[];
     createdAt: string;
     updatedAt: string;
