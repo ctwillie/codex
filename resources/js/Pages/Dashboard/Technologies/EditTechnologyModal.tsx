@@ -1,4 +1,4 @@
-import { useRef, useState, FormEventHandler } from "react";
+import { useRef, useState, FormEventHandler, ChangeEvent } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
@@ -21,7 +21,7 @@ export default function EditCategoryModal({
 }: EditTechnologyProps) {
     const [updatingTechnology, setUpdatingTechnology] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
-    const { id: technologyId, name } = technology;
+    const { id: technologyId, name, category } = technology;
 
     const {
         data,
@@ -29,13 +29,9 @@ export default function EditCategoryModal({
         patch: update,
         processing,
         errors,
-        transform,
     } = useForm({
         name,
-        category: {
-            value: technology.category.id,
-            label: technology.category.name,
-        },
+        categoryId: category.id,
     });
 
     const confirmEditTechnology = () => {
@@ -50,15 +46,6 @@ export default function EditCategoryModal({
             onError: () => nameInput.current?.focus(),
         });
     };
-
-    transform((data): any => {
-        const { category, name } = data;
-
-        return {
-            name,
-            categoryId: category.value,
-        };
-    });
 
     const closeModal = () => {
         setUpdatingTechnology(false);
@@ -99,13 +86,17 @@ export default function EditCategoryModal({
                     </div>
 
                     <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="categoryId"
+                            value="Catgory"
+                            className="mb-1"
+                        />
                         <Select
-                            id="category"
-                            label="Category"
-                            value={data.category}
+                            id="categoryId"
+                            selectedKeys={[data.categoryId]}
                             options={categorySelectOptions}
-                            onChange={(selectedOption: any) =>
-                                setData("category", selectedOption)
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                                setData("categoryId", e.target.value)
                             }
                         />
                     </div>

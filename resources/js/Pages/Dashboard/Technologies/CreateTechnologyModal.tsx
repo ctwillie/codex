@@ -1,4 +1,4 @@
-import { JSX, useRef, useState, FormEventHandler } from "react";
+import { JSX, useRef, useState, FormEventHandler, ChangeEvent } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
@@ -26,10 +26,9 @@ export default function CreateTechnologyModal({
         processing,
         reset,
         errors,
-        transform,
     } = useForm({
         name: "",
-        category: categorySelectOptions[0],
+        categoryId: categorySelectOptions[0].value,
     });
 
     const confirmCreateTechnology = () => {
@@ -44,15 +43,6 @@ export default function CreateTechnologyModal({
             onError: () => nameInput.current?.focus(),
         });
     };
-
-    transform((data): any => {
-        const { category, name } = data;
-
-        return {
-            name,
-            categoryId: category?.value,
-        };
-    });
 
     const closeModal = () => {
         setCreatingTechnology(false);
@@ -94,13 +84,17 @@ export default function CreateTechnologyModal({
                     </div>
 
                     <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="categoryId"
+                            value="Catgory"
+                            className="mb-1"
+                        />
                         <Select
-                            id="category"
-                            label="Category"
-                            value={data.category}
+                            id="categoryId"
+                            selectedKeys={[data.categoryId]}
                             options={categorySelectOptions}
-                            onChange={(selectedOption: any) =>
-                                setData("category", selectedOption)
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                                setData("categoryId", e.target.value)
                             }
                         />
                     </div>
