@@ -52,6 +52,7 @@ export default function EditResourceModal({
         e.preventDefault();
 
         update(route("resource.update", resource.id), {
+            preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => nameInput.current?.focus(),
         });

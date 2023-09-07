@@ -48,6 +48,7 @@ export default function CreateResourceModal({
         e.preventDefault();
 
         store(route("resource.store"), {
+            preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => nameInput.current?.focus(),
         });
