@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Technology;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,6 +30,7 @@ class StoreResourceRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', 'unique:resources,name'],
             'technology_id' => ['nullable', 'exists:technologies,id'],
             'url' => ['required', 'url', 'max:255'],
+            'tag_ids' => ['array'],
         ];
     }
 
@@ -42,10 +44,13 @@ class StoreResourceRequest extends FormRequest
             'category_id' => $category?->id,
         ]);
 
+        $tagIds = Tag::whereIn('uuid', $this->input('tagIds'))->pluck('id');
+
         $this->merge([
             'is_official' => $this->input('isOfficial'),
             'category_id' => $category?->id,
             'technology_id' => $technology?->id,
+            'tag_ids' => $tagIds->toArray(),
         ]);
     }
 }

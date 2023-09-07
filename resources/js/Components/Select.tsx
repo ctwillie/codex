@@ -3,17 +3,20 @@ import {
     Select as NextUISelect,
     SelectItem,
     SelectProps as NextUISelectProps,
-    SelectedItems,
-    SelectedItemProps,
 } from "@nextui-org/react";
 
 type SelectProps = Partial<NextUISelectProps> & {
     // value?: SelectOption | null; TODO: make value a prop and do the logic in this component to set selectedKeys
+    isMulti?: boolean;
     options: SelectOption[];
     [key: string]: any;
 };
 
-export default function Select({ options, ...restPops }: SelectProps) {
+export default function Select({
+    options,
+    isMulti = false,
+    ...restPops
+}: SelectProps) {
     return (
         <NextUISelect
             aria-label="Select"
@@ -21,6 +24,7 @@ export default function Select({ options, ...restPops }: SelectProps) {
             radius="sm"
             variant="bordered"
             labelPlacement="outside"
+            selectionMode={isMulti ? "multiple" : "single"}
             scrollShadowProps={{
                 isEnabled: false,
                 hideScrollBar: false,
@@ -29,13 +33,6 @@ export default function Select({ options, ...restPops }: SelectProps) {
                 trigger:
                     "dark:bg-gray-900 hover:dark:bg-gray-900 border-gray-300 dark:border-gray-700 dark:text-white",
                 popover: "dark:bg-gray-900 dark:text-gray-100",
-            }}
-            renderValue={(items: SelectedItems) => {
-                return items.map((i: SelectedItemProps) => {
-                    const { textValue, value } = i.props as Record<string, any>;
-
-                    return <div key={`render-value-${value}`}>{textValue}</div>;
-                });
             }}
             listboxProps={{
                 itemClasses: {

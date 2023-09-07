@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Technology;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,6 +29,7 @@ class UpdateResourceRequest extends FormRequest
             'category_id' => ['required', 'exists:categories,id'],
             'is_official' => ['required', 'boolean'],
             'technology_id' => ['nullable', 'exists:technologies,id'],
+            'tag_ids' => ['array'],
             'name' => [
                 'required',
                 'string',
@@ -53,10 +55,13 @@ class UpdateResourceRequest extends FormRequest
             'category_id' => $category?->id,
         ]);
 
+        $tagIds = Tag::whereIn('uuid', $this->input('tagIds'))->pluck('id');
+
         $this->merge([
             'is_official' => $this->input('isOfficial'),
             'category_id' => $category?->id,
             'technology_id' => $technology?->id,
+            'tag_ids' => $tagIds->toArray(),
         ]);
     }
 }

@@ -34,6 +34,13 @@ class DashboardController extends Controller
                 ];
             });
 
+        $tagSelectOptions = Tag::all()->map(function ($tag) {
+            return [
+                'label' => $tag->name,
+                'value' => $tag->uuid,
+            ];
+        });
+
         $resources = Resource::filtered($request->query())
             ->with('category', 'technology', 'tags')
             ->get();
@@ -44,6 +51,7 @@ class DashboardController extends Controller
             'resultsCount' => $resources->count(),
             'categorySelectOptions' => $categorySelectOptions,
             'technologySelectOptions' => $technologySelectOptions,
+            'tagSelectOptions' => $tagSelectOptions,
         ]);
     }
 

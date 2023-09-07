@@ -9,6 +9,7 @@ type ResourceListItemProps = {
     resource: Resource;
     categorySelectOptions: SelectOption[];
     technologySelectOptions: TechnologySelectOption[];
+    tagSelectOptions: SelectOption[];
     className?: string;
 };
 
@@ -16,6 +17,7 @@ export default function ResourceListItem({
     resource,
     categorySelectOptions,
     technologySelectOptions,
+    tagSelectOptions,
     className = "",
 }: ResourceListItemProps): JSX.Element {
     const { id: resourceId, name, isOfficial, url, tags } = resource;
@@ -93,6 +95,7 @@ export default function ResourceListItem({
                     resource={resource}
                     categorySelectOptions={categorySelectOptions}
                     technologySelectOptions={technologySelectOptions}
+                    tagSelectOptions={tagSelectOptions}
                 />
             </div>
         </div>
