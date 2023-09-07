@@ -52,11 +52,6 @@ export default function Resources({
         },
     ];
 
-    /**
-     * TODO: list
-     * - [ ] preserve state on page refresh
-     */
-
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Resources" />

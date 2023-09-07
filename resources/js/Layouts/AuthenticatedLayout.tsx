@@ -1,8 +1,11 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import { useState, PropsWithChildren, ReactNode, useEffect } from "react";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { User } from "@/types/user";
+import { usePage } from "@inertiajs/react";
+import toast from "react-hot-toast";
+import Toast from "@/Components/Toast";
 
 export default function Authenticated({
     user,
@@ -16,6 +19,19 @@ export default function Authenticated({
 }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    const pageProps = usePage().props;
+
+    useEffect(() => {
+        const { flash }: any = pageProps;
+
+        if (flash?.message) {
+            toast.custom(() => (
+                <div className="max-w-xs w-full bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5">
+                    <Toast message={flash.message} />
+                </div>
+            ));
+        }
+    }, [pageProps.flash]);
 
     if (!withNavigation)
         return (
