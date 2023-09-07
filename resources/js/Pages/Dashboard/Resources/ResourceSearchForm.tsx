@@ -54,16 +54,6 @@ export default function ResourceSearchForm({
 
     return (
         <section className={className}>
-            <header className="mb-10">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Search
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Find what your're looking for
-                </p>
-            </header>
-
             <form onSubmit={onSubmit} className="mt-6 space-y-6">
                 <div>
                     <Toggle
