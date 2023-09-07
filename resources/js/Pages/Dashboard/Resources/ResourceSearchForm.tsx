@@ -40,7 +40,7 @@ export default function ResourceSearchForm({
         });
     };
 
-    const sekectedTechnologyKeys = data.technologyId.length
+    const selectedTechnologyKeys = data.technologyId.length
         ? [data.technologyId]
         : [];
 
@@ -101,7 +101,7 @@ export default function ResourceSearchForm({
                         <Select
                             id="technologyId"
                             placeholder="Select a technology"
-                            selectedKeys={sekectedTechnologyKeys}
+                            selectedKeys={selectedTechnologyKeys}
                             options={filteredTechnologySelectOptions}
                             onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                                 setData("technologyId", e.target.value);

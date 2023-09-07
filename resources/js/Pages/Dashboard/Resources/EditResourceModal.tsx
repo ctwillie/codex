@@ -9,22 +9,25 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import Select from "@/Components/Select";
 import { SelectOption, TechnologySelectOption } from "@/types/select";
 import Toggle from "@/Components/Toggle";
-import { Resource } from "@/types/codex";
+import { Resource, Tag } from "@/types/codex";
 
 type EditResourceModalProps = {
     resource: Resource;
     categorySelectOptions: SelectOption[];
     technologySelectOptions: TechnologySelectOption[];
+    tagSelectOptions: SelectOption[];
 };
 
 export default function EditResourceModal({
     resource,
     categorySelectOptions,
     technologySelectOptions,
+    tagSelectOptions,
 }: EditResourceModalProps): JSX.Element {
     const [editingResource, setEditingResource] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
     const { name, isOfficial, technology, category, url } = resource;
+    const existingTagIds = resource.tags.map((tag: Tag) => tag.id);
 
     const {
         data,
@@ -36,8 +39,9 @@ export default function EditResourceModal({
         name,
         isOfficial,
         url,
-        technologyId: technology?.id || "",
         categoryId: category.id,
+        technologyId: technology?.id || "",
+        tagIds: existingTagIds,
     });
 
     const confirmEditResource = () => {
@@ -57,9 +61,11 @@ export default function EditResourceModal({
         setEditingResource(false);
     };
 
-    const sekectedTechnologyKeys = data.technologyId?.length
+    const selectedTechnologyKeys = data.technologyId?.length
         ? [data.technologyId]
         : [];
+
+    const selectedTagKeys = data.tagIds?.length ? data.tagIds : [];
 
     const filteredTechnologySelectOptions = technologySelectOptions.filter(
         (item: TechnologySelectOption) => {
@@ -158,10 +164,31 @@ export default function EditResourceModal({
                         <Select
                             id="technologyId"
                             placeholder="Select a technology"
-                            selectedKeys={sekectedTechnologyKeys}
+                            selectedKeys={selectedTechnologyKeys}
                             options={filteredTechnologySelectOptions}
                             onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                                 setData("technologyId", e.target.value);
+                            }}
+                        />
+                    </div>
+
+                    <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="tagIds"
+                            value="Tags"
+                            className="mb-1"
+                        />
+                        <Select
+                            isMulti
+                            id="tagIds"
+                            selectedKeys={selectedTagKeys}
+                            placeholder="Select tags"
+                            options={tagSelectOptions}
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                const tagIds = e.target.value
+                                    .split(",")
+                                    .filter(Boolean);
+                                setData("tagIds", tagIds);
                             }}
                         />
                     </div>

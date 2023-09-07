@@ -13,7 +13,9 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
-        Resource::create($request->validated());
+        $resource = Resource::create($request->validated());
+
+        $resource->tags()->attach($request->validated('tag_ids'));
 
         return to_route('dashboard')
             ->with('message', 'Resource added successfully');
@@ -25,6 +27,8 @@ class ResourceController extends Controller
     public function update(UpdateResourceRequest $request, Resource $resource)
     {
         $resource->update($request->validated());
+
+        $resource->tags()->sync($request->validated('tag_ids'));
 
         return to_route('dashboard')
             ->with('message', 'Resource updated successfully');

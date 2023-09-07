@@ -17,6 +17,7 @@ type ResourcesProps = {
     resultsCount: number;
     categorySelectOptions: SelectOption[];
     technologySelectOptions: TechnologySelectOption[];
+    tagSelectOptions: SelectOption[];
 };
 
 export default function Resources({
@@ -25,6 +26,7 @@ export default function Resources({
     resultsCount,
     categorySelectOptions,
     technologySelectOptions,
+    tagSelectOptions,
 }: PageProps<ResourcesProps>): JSX.Element {
     const tabs: Array<any> = [
         {
@@ -83,6 +85,7 @@ export default function Resources({
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }
+                                        tagSelectOptions={tagSelectOptions}
                                     />
                                 </span>
                             </div>
@@ -99,6 +102,7 @@ export default function Resources({
                                         technologySelectOptions={
                                             technologySelectOptions
                                         }
+                                        tagSelectOptions={tagSelectOptions}
                                     />
                                     <Divider />
                                 </Fragment>

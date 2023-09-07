@@ -13,11 +13,13 @@ import Toggle from "@/Components/Toggle";
 type CreateResourceModalProps = {
     categorySelectOptions: SelectOption[];
     technologySelectOptions: TechnologySelectOption[];
+    tagSelectOptions: SelectOption[];
 };
 
 export default function CreateResourceModal({
     categorySelectOptions,
     technologySelectOptions,
+    tagSelectOptions,
 }: CreateResourceModalProps): JSX.Element {
     const [creatingResource, setCreatingResource] = useState(false);
     const nameInput = useRef<HTMLInputElement>();
@@ -32,9 +34,10 @@ export default function CreateResourceModal({
     } = useForm({
         name: "",
         isOfficial: false,
-        categoryId: categorySelectOptions[0].value,
-        technologyId: "",
         url: "",
+        technologyId: "",
+        tagIds: [] as string[],
+        categoryId: categorySelectOptions[0].value,
     });
 
     const confirmCreateResource = () => {
@@ -55,7 +58,7 @@ export default function CreateResourceModal({
         reset();
     };
 
-    const sekectedTechnologyKeys = data.technologyId?.length
+    const selectedTechnologyKeys = data.technologyId?.length
         ? [data.technologyId]
         : [];
 
@@ -157,10 +160,30 @@ export default function CreateResourceModal({
                         <Select
                             id="technologyId"
                             placeholder="Select a technology"
-                            selectedKeys={sekectedTechnologyKeys}
+                            selectedKeys={selectedTechnologyKeys}
                             options={filteredTechnologySelectOptions}
                             onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                                 setData("technologyId", e.target.value);
+                            }}
+                        />
+                    </div>
+
+                    <div className="mt-6 w-3/4">
+                        <InputLabel
+                            htmlFor="tagIds"
+                            value="Tags"
+                            className="mb-1"
+                        />
+                        <Select
+                            isMulti
+                            id="tagIds"
+                            placeholder="Select tags"
+                            options={tagSelectOptions}
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                                const tagIds = e.target.value
+                                    .split(",")
+                                    .filter(Boolean);
+                                setData("tagIds", tagIds);
                             }}
                         />
                     </div>
