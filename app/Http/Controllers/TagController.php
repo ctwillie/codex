@@ -18,8 +18,6 @@ class TagController extends Controller
 
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-        logger('tag update', $request->validated());
-
         $tag->update($request->validated());
 
         return to_route('dashboard.tags')
