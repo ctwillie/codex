@@ -10,6 +10,13 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setup(): void
+    {
+        parent::setUp();
+
+        $this->markTestSkipped('Registration route is disabled');
+    }
+
     public function test_registration_screen_can_be_rendered(): void
     {
         $response = $this->get('/register');
